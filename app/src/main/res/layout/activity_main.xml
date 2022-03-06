@@ -5,12 +5,120 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background=""
-    tools:context=".MainActivity"
-    android:padding="10dp">
+    tools:context=".MainActivity">
 
-   <LinearLayout
-       android:layout_width=""
-       android:layout_height=""
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/first"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="20dp"
+            android:padding="2dp"
+            android:background="@drawable/rounded_corner"
+            android:layout_gravity="center_horizontal">
+
+            <EditText
+                android:id="@+id/yourCity"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/rounded_corner"
+                android:ems="10"
+                android:hint="Enter Your City"
+                android:inputType="text"
+                android:textColor="@color/white"
+                android:textColorHint="@color/hintColor"
+                android:textSize="15sp"
+                android:layout_centerVertical="true"/>
+
+            <ImageView
+                android:id="@+id/search"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_baseline_search_24"/>
+
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/city_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAllCaps="true"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:text="lorem ipsum"
+                android:includeFontPadding="false"/>
+
+            <TextView
+                android:id="@+id/country_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAllCaps="true"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/white"
+                android:textSize="25sp"
+                android:text="lorem ipsum"
+                android:includeFontPadding="false"/>
+            <TextView
+                android:id="@+id/temp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAllCaps="true"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/white"
+                android:textSize="50sp"
+                android:text="lorem ipsum"
+                android:textStyle="bold"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAllCaps="true"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/white"
+                android:textSize="13sp"
+                android:text="lorem ipsum"
+                android:includeFontPadding="false"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="210dp"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="@color/white"
+                android:text="lorem iosum"
+                android:textSize="16sp"
+                android:includeFontPadding="false"
+                android:textStyle="bold"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:layout_marginTop="8dp"
+                android:includeFontPadding="false"/>
+        </LinearLayout>
+    </LinearLayout>
+
 
 </androidx.core.widget.NestedScrollView>
