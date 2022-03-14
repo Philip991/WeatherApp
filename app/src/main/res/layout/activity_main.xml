@@ -59,6 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAllCaps="false"
+                android:text="--"
                 android:layout_gravity="center_horizontal"
                 android:textColor="@color/white"
                 android:textSize="16sp"
@@ -69,6 +70,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAllCaps="true"
+                android:text="--"
                 android:layout_gravity="center_horizontal"
                 android:textColor="@color/white"
                 android:textSize="25sp"
@@ -81,7 +83,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:fontFamily="@font/overpass_light"
-                android:text="lorem"
+                android:text="--"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="50sp"
@@ -91,6 +93,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAllCaps="true"
+                android:text="--"
                 android:layout_gravity="center_horizontal"
                 android:textColor="@color/white"
                 android:textSize="16sp"
@@ -108,10 +111,12 @@
                 android:id="@+id/lastUpdatedTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/overpass_light"
+                android:includeFontPadding="false"
+                android:text="--"
                 android:textColor="@color/white"
                 android:textSize="16sp"
-                android:includeFontPadding="false"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
         </LinearLayout>
         <View
             android:layout_width="300dp"
