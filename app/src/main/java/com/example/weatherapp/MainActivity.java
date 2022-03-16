@@ -106,13 +106,19 @@ public class MainActivity extends AppCompatActivity {
 
                 String city_name = jsonObject.getString("name");
                 String country_name = sys.getString("country");
-                String temp = main.getString("temp");
+                //String temp = main.getString("temp");
+                double temp =jsonObject.getJSONObject("main").getDouble("temp");
+                int roundTemp=(int)Math.rint(temp);
                 String forecast = weather.getString("description");
                 Long lastUpdatedTime = jsonObject.getLong("dt");
                 String lastUpdatedTimeText = "Last Updated at:" + new SimpleDateFormat("dd/MM/yyyy hh:mm", Locale.ENGLISH).format(new Date(lastUpdatedTime * 1000));
                 String Humidity = main.getString("humidity");
-                String min_temp = main.getString("temp_min");
-                String max_temp = main.getString("temp_max");
+                //String min_temp = main.getString("temp_min");
+                double min_temp=jsonObject.getJSONObject("main").getDouble("temp_min");
+                int roundMinTemp = (int)Math.rint(min_temp);
+                //String max_temp = main.getString("temp_max");
+                double max_temp = jsonObject.getJSONObject("main").getDouble("temp_max");
+                int roundMaxTemp=(int)Math.rint(max_temp);
                 Long rise = sys.getLong("sunrise");
                 String sunrise = new SimpleDateFormat("hh:mm", Locale.ENGLISH).format(new Date(rise * 1000));
                 Long set = sys.getLong("sunset");
@@ -120,12 +126,12 @@ public class MainActivity extends AppCompatActivity {
 
                 city.setText(city_name);
                 country.setText(country_name);
-                Temp.setText(temp + "\u2103");
+                Temp.setText(roundTemp + "\u2103");
                 Forecast.setText(forecast);
                 time.setText(lastUpdatedTimeText);
                 hum.setText(Humidity);
-                minTemp.setText(min_temp + "\u2103");
-                maxTemp.setText(max_temp + "\u2103");
+                minTemp.setText(roundMinTemp+ "\u2103");
+                maxTemp.setText(roundMaxTemp + "\u2103");
                 sunRise.setText(sunrise);
                 sunSet.setText(sunset);
 
@@ -174,11 +180,11 @@ public class MainActivity extends AppCompatActivity {
 
         if (requestCode==REQUEST_CODE){
             if(grantResults.length>0&&grantResults[0]==PackageManager.PERMISSION_GRANTED){
-                Toast.makeText(MainActivity.this,"LocationGet Successful",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this,"Location Get Successful",Toast.LENGTH_SHORT).show();
                 getweatherforuserlocation();
             }
             else{
-                Toast.makeText(MainActivity.this, "Location Services Granted", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Location Services not Granted", Toast.LENGTH_SHORT).show();
             }
 
         }
