@@ -37,14 +37,13 @@ import cz.msebera.android.httpclient.Header;
 
 public class MainActivity extends AppCompatActivity {
 
-    String Latitude;
-    String Longitude;
+
 
     String CITY;
     String API="c4d36921ee2783e189b8feb168a10a50";
     // String Url ="https://api.openweathermap.org/data/2.5/weather?q=" + CITY + "&units=metric&appid=c4d36921ee2783e189b8feb168a10a50";
     //String Current_Api="https://api.openweathermap.org/data/2.5/weather";
-    String currentApi="https://api.openweathermap.org/data/2.5/weather?lat="+Latitude+"&lon="+Longitude+"&appid="+API+"";
+    String currentApi="https://api.openweathermap.org/data/2.5/weather?lat=&lon=&appid="+API+"";
     ImageView search;
     EditText etCity;
     TextView city, country, Temp, Forecast, time, hum, minTemp, maxTemp, sunRise, sunSet;
@@ -199,6 +198,8 @@ public class MainActivity extends AppCompatActivity {
         LocationListener locListener=new LocationListener() {
             @Override
             public void onLocationChanged(@NonNull Location location) {
+                String Latitude = String.valueOf(location.getLatitude());
+                String Longitude = String.valueOf(location.getLatitude());
 
 
 
