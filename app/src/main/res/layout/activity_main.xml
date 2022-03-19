@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg"
+    android:background="@drawable/gradient_bg"
+    android:id="@+id/customBg"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -81,6 +82,7 @@
 
                 android:textColor="@color/white"
                 android:textSize="25sp" />
+
 
             <TextView
                 android:id="@+id/temp"
@@ -326,4 +328,4 @@
     </LinearLayout>
 
 
-</androidx.core.widget.NestedScrollView>
+</RelativeLayout>
