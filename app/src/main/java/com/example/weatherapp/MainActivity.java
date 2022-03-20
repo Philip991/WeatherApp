@@ -8,6 +8,8 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -29,8 +31,10 @@ import com.loopj.android.http.RequestParams;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import cz.msebera.android.httpclient.Header;
@@ -41,16 +45,19 @@ public class MainActivity extends AppCompatActivity {
 
     String CITY;
     String API="c4d36921ee2783e189b8feb168a10a50";
-    // String Url ="https://api.openweathermap.org/data/2.5/weather?q=" + CITY + "&units=metric&appid=c4d36921ee2783e189b8feb168a10a50";
+    //String Url ="https://api.openweathermap.org/data/2.5/weather?q=" + CITY + "&units=metric&appid="+API+"";
     //String Current_Api="https://api.openweathermap.org/data/2.5/weather";
-    String currentApi="https://api.openweathermap.org/data/2.5/weather?lat=&lon=&appid="+API+"";
-    ImageView search;
+    //String currentApi="https://api.openweathermap.org/data/2.5/weather?lat=&lon=&appid=c4d36921ee2783e189b8feb168a10a50";
+    String currentApi="http://api.openweathermap.org/data/2.5/weather?";
+    ImageView search,navBtn;
     EditText etCity;
     TextView city, country, Temp, Forecast, time, hum, minTemp, maxTemp, sunRise, sunSet;
 
     LocationManager locManager;
     LocationListener locListener;
     RelativeLayout customBackground;
+    String wIcon;
+    int wCondition;
 
 
 
@@ -73,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
         customBackground =(RelativeLayout) findViewById(R.id.customBg);
 
+        navBtn=(ImageView)findViewById(R.id.navBtn);
         etCity = (EditText) findViewById(R.id.yourCity);
         search = (ImageView) findViewById(R.id.search);
         city = (TextView) findViewById(R.id.city_name);
@@ -94,11 +102,19 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 CITY = etCity.getText().toString();
                 new weatherTask().execute();
+
                // customBackground.setBackgroundResource(resourceID);
 
 
 
 
+            }
+        });
+
+        navBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getWeatherForUserLocation();
             }
         });
 
@@ -123,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             try {
+
                 JSONObject jsonObject = new JSONObject(result);
                 JSONObject main = jsonObject.getJSONObject("main");
                 JSONObject weather = jsonObject.getJSONArray("weather").getJSONObject(0);
@@ -159,6 +176,9 @@ public class MainActivity extends AppCompatActivity {
                 String sunset = new SimpleDateFormat("hh:mm", Locale.ENGLISH).format(new Date(set * 1000));
 
 
+               //wCondition=jsonObject.getJSONArray("weather").getJSONObject(0).getInt("id");
+                //wIcon=updateWeatherBg(wCondition);
+
                 city.setText(city_name);
                 country.setText(country_name);
                 Temp.setText(roundTemp + "\u2103");
@@ -169,6 +189,10 @@ public class MainActivity extends AppCompatActivity {
                 maxTemp.setText(roundMaxTemp + "\u2103");
                 sunRise.setText(sunrise);
                 sunSet.setText(sunset);
+                //int resourceID=getResources().getIdentifier(getwIcon(),"drawable",getPackageName());
+                //customBackground.setBackgroundResource(resourceID);
+
+
 
                // wIcon =updateWeatherBg(bgCode);
 
@@ -186,30 +210,43 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+  /* private String getwIcon() {
+        return wIcon;
+    }*/
+
+
     @Override
     protected void onResume() {
         super.onResume();
         getWeatherForUserLocation();
     }
 
+
     public void getWeatherForUserLocation() {
-        locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        //locListener = new LocationListener()
-        LocationListener locListener=new LocationListener() {
+        locManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        locListener = new LocationListener(){
+       // LocationListener locListener=new LocationListener()
             @Override
             public void onLocationChanged(@NonNull Location location) {
                 String Latitude = String.valueOf(location.getLatitude());
                 String Longitude = String.valueOf(location.getLatitude());
 
-
-
-
-
-
+               /*String cityName = "";
+                Geocoder gcd = new Geocoder(getBaseContext(), Locale.getDefault());
+                List<Address>addresses;
+                try {
+                    addresses=gcd.getFromLocation(location.getLatitude(),location.getLongitude(),1);
+                    if(addresses.size()>0){
+                        cityName=addresses.get(0).getLocality();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }*/
 
                 RequestParams params =new RequestParams();
                 params.put("lat",Latitude);
                 params.put("lon",Longitude);
+                //params.put("q",cityName);
                 params.put("appid",API );
                 letsDoSomeWorkings(params);
 
@@ -245,6 +282,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                // super.onFailure(statusCode, headers, throwable, errorResponse);
+                Toast.makeText(MainActivity.this,"Data get failed",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -257,7 +295,8 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode==REQUEST_CODE){
             if(grantResults.length>0&&grantResults[0]==PackageManager.PERMISSION_GRANTED){
                 Toast.makeText(MainActivity.this,"Location Get Successful",Toast.LENGTH_SHORT).show();
-                getWeatherForUserLocation();
+               // getWeatherForUserLocation();
+
             }
             else{
                 Toast.makeText(MainActivity.this, "Location Services not Granted", Toast.LENGTH_SHORT).show();
@@ -269,16 +308,16 @@ public class MainActivity extends AppCompatActivity {
     private void updateUi(weatherData weather){
         city.setText(weather.getwCity());
         country.setText(weather.getwCountry());
-        Temp.setText(weather.getwTemp());
+        Temp.setText(weather.getwTemp()+ "\u2103");
         Forecast.setText(weather.getwForecast());
         time.setText(weather.getwTime());
         hum.setText(weather.getwHum());
-        minTemp.setText(weather.getwMinTemp());
-        maxTemp.setText(weather.getwMaxTemp());
+        minTemp.setText(weather.getwMinTemp()+ "\u2103");
+        maxTemp.setText(weather.getwMaxTemp()+ "\u2103");
         sunRise.setText(weather.getwSunRise());
         sunSet.setText(weather.getwSunSet());
-        int resourceID=getResources().getIdentifier(weather.getwIcon(),"drawable",getPackageName());
-        customBackground.setBackgroundResource(resourceID);
+       // int resourceID=getResources().getIdentifier(weather.getwIcon(),"drawable",getPackageName());
+        //customBackground.setBackgroundResource(resourceID);
     }
 
     @Override
@@ -288,5 +327,29 @@ public class MainActivity extends AppCompatActivity {
             locManager.removeUpdates(locListener);
         }
     }
+
+  /* public static String updateWeatherBg(int condition) {
+        if (condition == 800) {
+            return "a01d";
+        } else if (condition == 801) {
+            return "a02d";
+        } else if (condition == 802) {
+            return "a03d";
+        } else if (condition == 803 || condition == 804) {
+            return "a04d";
+        } else if (condition >= 300 && condition <= 321 || condition >= 520 && condition <= 531) {
+            return "a09d";
+        } else if (condition >= 500 && condition <= 504) {
+            return "a10d";
+        } else if (condition >= 200 && condition <= 232) {
+            return "a11d";
+        } else if (condition >= 600 && condition <= 622 || condition == 511) {
+            return "a13d";
+        } else if (condition >= 701 && condition <= 781) {
+            return "a50d";
+        }
+        return "error";
+
+    }*/
 }
 

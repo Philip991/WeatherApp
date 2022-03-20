@@ -17,25 +17,25 @@ public class weatherData {
             weatherData WeatherD=new weatherData();
             WeatherD.wCity=jsonObject.getString("name");
             WeatherD.wCountry=jsonObject.getJSONObject("sys").getString("country");
-            double temp=jsonObject.getJSONObject("main").getDouble("temp");
+            double temp=jsonObject.getJSONObject("main").getDouble("temp")-273.15;
             int roundTemp=(int)Math.rint(temp);
             WeatherD.wTemp=Integer.toString(roundTemp);
-            WeatherD.wCondition=jsonObject.getJSONArray("weather").getJSONObject(0).getInt("id");
-            WeatherD.wIcon=updateWeatherBg(WeatherD.wCondition);
+            //WeatherD.wCondition=jsonObject.getJSONArray("weather").getJSONObject(0).getInt("id");
+            //WeatherD.wIcon=updateWeatherBg(WeatherD.wCondition);
             WeatherD.wForecast=jsonObject.getJSONArray("weather").getJSONObject(0).getString("description");
             Long lastUpdatedTime=jsonObject.getLong("dt");
             WeatherD.wTime="Last Updated at:" + new SimpleDateFormat("dd/MM/yyyy hh:mm", Locale.ENGLISH).format(new Date(lastUpdatedTime * 1000));
             WeatherD.wHum=jsonObject.getJSONObject("main").getString("humidity");
-            double minTemp=jsonObject.getJSONObject("main").getDouble("temp_min");
+            double minTemp=jsonObject.getJSONObject("main").getDouble("temp_min")-273.15;
             int roundMinTemp=(int)Math.rint(minTemp);
             WeatherD.wMinTemp=Integer.toString(roundMinTemp);
-            double maxTemp=jsonObject.getJSONObject("main").getDouble("temp_max");
+            double maxTemp=jsonObject.getJSONObject("main").getDouble("temp_max")-273.15;
             int roundMaxTemp=(int)Math.rint(maxTemp);
             WeatherD.wMaxTemp=Integer.toString(roundMaxTemp);
             Long rise = jsonObject.getJSONObject("sys").getLong("sunrise");
             WeatherD.wSunRise=new SimpleDateFormat("hh:mm", Locale.ENGLISH).format(new Date(rise * 1000));
             Long set =jsonObject.getJSONObject("sys").getLong("sunset");
-            new SimpleDateFormat("hh:mm", Locale.ENGLISH).format(new Date(set * 1000));
+            WeatherD.wSunRise=new SimpleDateFormat("hh:mm", Locale.ENGLISH).format(new Date(set * 1000));
             return WeatherD;
 
 
@@ -46,7 +46,7 @@ public class weatherData {
         }
     }
 
-    public static String updateWeatherBg(int condition) {
+    /*public static String updateWeatherBg(int condition) {
         if (condition == 800) {
             return "a01d";
         } else if (condition == 801) {
@@ -68,11 +68,11 @@ public class weatherData {
         }
         return "error";
 
-    }
+    }*/
 
-    public String getwIcon() {
+   /* public String getwIcon() {
         return wIcon;
-    }
+    }*/
 
     public String getwCity() {
         return wCity;
